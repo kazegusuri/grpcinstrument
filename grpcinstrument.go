@@ -11,8 +11,6 @@ package grpcinstrument
 
 import (
 	"time"
-
-	"go.pedge.io/proto/time"
 )
 
 // Instrumentator is the interface that servers must implement in order to
@@ -34,6 +32,13 @@ type Measurer interface {
 	Measure(*Call)
 }
 
+type Call struct {
+	Service  string
+	Method   string
+	Error    error
+	Duration time.Duration
+}
+
 // NewLoggerMeasurer constructs an implementation of the Instrumentator interface
 // for its most common use case, logging and collecting metrics about RPC calls.
 func NewLoggerMeasurer(logger Logger, measurer Measurer) Instrumentator {
@@ -46,20 +51,16 @@ func Instrument(
 	instrumentator Instrumentator,
 	serviceName string,
 	methodName string,
-	inputType string,
-	outputType string,
 	err error,
 	start time.Time,
 ) {
 	call := &Call{
 		Service:  serviceName,
 		Method:   methodName,
-		Input:    &Input{Type: inputType},
-		Output:   &Output{Type: outputType},
-		Duration: prototime.DurationToProto(time.Since(start)),
+		Duration: time.Since(start),
 	}
 	if err != nil {
-		call.Error = &Error{Message: err.Error()}
+		call.Error = err
 	}
 	instrumentator.Instrument(call)
 }

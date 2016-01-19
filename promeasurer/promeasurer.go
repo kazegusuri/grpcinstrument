@@ -1,6 +1,6 @@
 package promeasurer
 
-import "github.com/sr/grpcinstrument"
+import "github.com/kazegusuri/grpcinstrument"
 
 // NewMeasurer constructs an Measurer implementation that exports gRPC metrics
 // via Prometheus.

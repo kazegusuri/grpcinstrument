@@ -2,7 +2,7 @@
 package example
 
 import (
-	"github.com/sr/grpcinstrument"
+	"github.com/kazegusuri/grpcinstrument"
 	"golang.org/x/net/context"
 	"time"
 )
@@ -38,8 +38,6 @@ func (a *InstrumentedExampleServer) Hello(
 			a.instrumentator,
 			"example",
 			"Hello",
-			"HelloRequest",
-			"HelloResponse",
 			err,
 			start,
 		)

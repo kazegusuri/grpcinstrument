@@ -1,9 +1,8 @@
 package promeasurer
 
 import (
+	"github.com/kazegusuri/grpcinstrument"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/sr/grpcinstrument"
-	"go.pedge.io/proto/time"
 )
 
 type measurer struct {
@@ -53,6 +52,6 @@ func (m *measurer) Measure(call *grpcinstrument.Call) {
 	m.registry.total.With(labels).Inc()
 	m.registry.errors.With(labels).Inc()
 	m.registry.duration.With(labels).Observe(
-		float64(prototime.DurationFromProto(call.Duration).Nanoseconds()),
+		float64(call.Duration.Nanoseconds()),
 	)
 }
